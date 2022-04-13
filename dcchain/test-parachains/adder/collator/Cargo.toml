@@ -1,0 +1,47 @@
+[package]
+name = "test-dcchain-adder-collator"
+version = "0.9.19"
+authors = ["Parity Technologies <admin@parity.io>"]
+description = "Collator for the adder test dcchain"
+edition = "2021"
+
+[[bin]]
+name = "adder-collator"
+path = "src/main.rs"
+
+[[bin]]
+name = "adder_collator_puppet_worker"
+path = "bin/puppet_worker.rs"
+
+[dependencies]
+parity-scale-codec = { version = "3.1.2", default-features = false, features = ["derive"] }
+clap = { version = "3.1", features = ["derive"] }
+futures = "0.3.21"
+futures-timer = "3.0.2"
+log = "0.4.16"
+
+test-dcchain-adder = { path = ".." }
+digital_circulation-primitives = { path = "../../../../primitives" }
+digital_circulation-cli = { path = "../../../../cli" }
+digital_circulation-service = { path = "../../../../node/service", features = ["rococo-native"] }
+digital_circulation-node-primitives = { path = "../../../../node/primitives" }
+digital_circulation-node-subsystem = { path = "../../../../node/subsystem" }
+
+sc-cli = { git = "https://github.com/ajie1155/substrate", branch = "master" }
+sp-core = { git = "https://github.com/ajie1155/substrate", branch = "master" }
+sc-service = { git = "https://github.com/ajie1155/substrate", branch = "master" }
+
+# This one is tricky. Even though it is not used directly by the collator, we still need it for the
+# `puppet_worker` binary, which is required for the integration test. However, this shouldn't be
+# a big problem since it is used transitively anyway.
+digital_circulation-node-core-pvf = { path = "../../../../node/core/pvf" }
+
+[dev-dependencies]
+digital_circulation-dcchain = { path = "../../.." }
+digital_circulation-test-service = { path = "../../../../node/test/service" }
+
+substrate-test-utils = { git = "https://github.com/ajie1155/substrate", branch = "master" }
+sc-service = { git = "https://github.com/ajie1155/substrate", branch = "master" }
+sp-keyring = { git = "https://github.com/ajie1155/substrate", branch = "master" }
+
+tokio = { version = "1.17.0", features = ["macros"] }

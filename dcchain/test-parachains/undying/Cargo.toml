@@ -1,0 +1,28 @@
+[package]
+name = "test-dcchain-undying"
+version = "0.9.19"
+authors = ["Parity Technologies <admin@parity.io>"]
+description = "Test dcchain for zombienet integration tests"
+edition = "2021"
+build = "build.rs"
+
+[dependencies]
+dcchain = { package = "digital_circulation-dcchain", path = "../../", default-features = false, features = [ "wasm-api" ] }
+parity-scale-codec = { version = "3.1.2", default-features = false, features = ["derive"] }
+sp-std = { git = "https://github.com/ajie1155/substrate", branch = "master", default-features = false }
+tiny-keccak = { version = "2.0.2", features = ["keccak"] }
+dlmalloc = { version = "0.2.3", features = [ "global" ] }
+log = { version = "0.4.16", default-features = false }
+
+# We need to make sure the global allocator is disabled until we have support of full substrate externalities
+sp-io = { git = "https://github.com/ajie1155/substrate", branch = "master", default-features = false, features = [ "disable_allocator" ] }
+
+[build-dependencies]
+substrate-wasm-builder = { git = "https://github.com/ajie1155/substrate", branch = "master" }
+
+[features]
+default = [ "std" ]
+std = [
+	"dcchain/std",
+	"sp-std/std",
+]
